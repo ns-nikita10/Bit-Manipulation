@@ -1,0 +1,66 @@
+/*
+  Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+  Eg- Input: n = 5
+      Output: [0,1,1,2,1,2]
+      Explanation:
+      0 --> 0
+      1 --> 1
+      2 --> 10
+      3 --> 11
+      4 --> 100
+      5 --> 101
+*/
+
+/*
+  Approach-1 
+  
+  Time-Complexity -> O(nlogn)
+  
+  Loop through numbers from 1 to n
+  for each number store & calculate remainder (which eventually counts 1)
+  for each number divide it by 2 (LCM - to find binary representation)
+  
+*/
+
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector<int> res;
+        
+        res.push_back(0);
+        int no = n;
+        for (int i=1; i<=no ;i++) {
+            n = i;
+            int r = 0;
+            while (n != 0) {
+                r += n%2;
+                n = n/2;
+            }
+            res.push_back(r);
+        }
+        return res;
+    }
+};
+
+
+/*
+  Approach-2
+  
+  Time-Complexity -> O(n)
+  
+  use prev no of 1's count to compute the current no count i.e. res[i/2]
+  eg- l2%2 = 0 no is even 
+      11%2 = 1 no is odd (i%2)
+*/
+
+class Solution {
+public:
+    vector<int> countBits(int n) {
+        vector <int> res(n); // res(n)if size is not defined it gives heap buffer overflow error
+        res.push_back(0);
+        for (int i = 1; i <= n; i++) {
+            res[i] = res[i/2] + i%2;
+        }
+        return res;
+    }
+};
